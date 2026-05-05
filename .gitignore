@@ -108,3 +108,6 @@ InitTestScene*.unity*
 
 # idea
 .idea/
+
+# plastic
+.plastic/
