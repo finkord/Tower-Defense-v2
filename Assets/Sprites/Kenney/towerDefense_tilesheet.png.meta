@@ -116,7 +116,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -3048,7 +3048,7 @@ TextureImporter:
         x: 1920
         y: 896
         width: 128
-        height: 128
+        height: 127
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3114,7 +3114,7 @@ TextureImporter:
         x: 2304
         y: 896
         width: 128
-        height: 128
+        height: 127
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3136,7 +3136,7 @@ TextureImporter:
         x: 2432
         y: 896
         width: 128
-        height: 128
+        height: 127
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3158,7 +3158,7 @@ TextureImporter:
         x: 2560
         y: 896
         width: 128
-        height: 128
+        height: 127
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
