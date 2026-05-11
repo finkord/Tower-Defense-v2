@@ -15,16 +15,45 @@ public class Tower : MonoBehaviour
 
         Enemy target = FindBestTarget();
 
-        if (target != null && fireCooldown <= 0f)
+        if (target != null)
         {
-            Shoot(target);
-            fireCooldown = 1f / fireRate;
+            RotateTowardsTarget(target.transform);
+
+            if (fireCooldown <= 0f)
+            {
+                Shoot(target);
+                fireCooldown = 1f / fireRate;
+            }
         }
     }
+    
+    public float rotationSpeed = 10f;
+
+    void RotateTowardsTarget(Transform targetTransform)
+    {
+        Vector3 direction = targetTransform.position - transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    
+        Quaternion targetRotation = Quaternion.Euler(0, 0, angle - 90f);
+        
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    // void RotateTowardsTarget(Transform targetTransform)
+    // {
+    //     Vector3 direction = targetTransform.position - transform.position;
+    //     
+    //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    //     
+    //     float rotationOffset = -90f; 
+    //
+    //     transform.rotation = Quaternion.Euler(0, 0, angle + rotationOffset);
+    // }
 
     Enemy FindBestTarget()
     {
-        Enemy[] enemies = GameObject.FindObjectsOfType<Enemy>();
+        // Виправлено: FindObjectsOfType викликається без префікса GameObject
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
 
         Enemy best = null;
         float bestProgress = -1f;
@@ -48,8 +77,11 @@ public class Tower : MonoBehaviour
 
     void Shoot(Enemy target)
     {
-        GameObject p = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        Projectile pr = p.GetComponent<Projectile>();
-        pr.target = target.transform;
+        if (projectilePrefab != null && firePoint != null)
+        {
+            GameObject p = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            Projectile pr = p.GetComponent<Projectile>();
+            pr.target = target.transform;
+        }
     }
 }
