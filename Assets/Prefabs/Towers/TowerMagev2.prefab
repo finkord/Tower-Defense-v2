@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8160823051348830795}
   - component: {fileID: 1170360690683726719}
+  - component: {fileID: 2627792349263831663}
   m_Layer: 0
   m_Name: TowerMagev2
   m_TagString: Untagged
@@ -92,6 +93,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2627792349263831663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876732202058136451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff121d289b88a9c4daa8ce119ad1d34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Tower
+  data: {fileID: 11400000, guid: bd5bb7728c01f12469d5663a025317d0, type: 2}
+  firePoint: {fileID: 2074508458651287974}
+  turretPart: {fileID: 2074508458651287974}
 --- !u!1 &1331540245399634426
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,8 +118,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2074508458651287974}
   - component: {fileID: 8605885964714787318}
-  - component: {fileID: 3300063428846314266}
-  - component: {fileID: 785349873642152047}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -120,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 1331540245399634426}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.19999981, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -185,35 +199,3 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &3300063428846314266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331540245399634426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff121d289b88a9c4daa8ce119ad1d34f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Tower
-  range: 3
-  fireRate: 1
-  projectilePrefab: {fileID: 6721016053765563738, guid: 8fb0dcb5c647ad44c917f4dbd962d0d9, type: 3}
-  firePoint: {fileID: 2074508458651287974}
---- !u!114 &785349873642152047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331540245399634426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff121d289b88a9c4daa8ce119ad1d34f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Tower
-  range: 3
-  fireRate: 1
-  projectilePrefab: {fileID: 6721016053765563738, guid: 8fb0dcb5c647ad44c917f4dbd962d0d9, type: 3}
-  firePoint: {fileID: 2074508458651287974}

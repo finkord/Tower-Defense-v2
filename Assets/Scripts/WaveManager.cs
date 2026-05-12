@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 [System.Serializable]
 public class WaveData
 {
     public float duration = 10f;
-    public int easyEnemies = 5;
-    public int hardEnemies = 2;
+    public int goblinEnemies = 5;
+    public int orcEnemies = 2;
+    public int ghostEnemies = 1;
 }
 
 public class WaveManager : MonoBehaviour
@@ -15,10 +17,13 @@ public class WaveManager : MonoBehaviour
     public WaveData[] waves;
     public Button startWaveButton;
     
-    public GameObject easyEnemiesPrefab;
-    public GameObject hardEnemiesPrefab;
+    public GameObject goblinEnemiesPrefab;
+    public GameObject orcEnemiesPrefab;
+    public GameObject ghostEnemiesPrefab;
     
     public Transform[] wayPoints;
+    
+    public TextMeshProUGUI waveText;
     
     private int currentWaveIndex = 0;
     private bool waveRunning = false;
@@ -44,17 +49,24 @@ public class WaveManager : MonoBehaviour
         WaveData wave = waves[currentWaveIndex];
 
         // Spawn Easy Enemies
-        for (int i = 0; i < wave.easyEnemies; i++)
+        for (int i = 0; i < wave.goblinEnemies; i++)
         {
-            SpawnEnemy(easyEnemiesPrefab);
-            yield return new WaitForSeconds((wave.duration / 3f) / wave.easyEnemies);
+            SpawnEnemy(goblinEnemiesPrefab);
+            yield return new WaitForSeconds((wave.duration / 3f) / wave.goblinEnemies);
         }
         
         // Spawn Hard Enemies
-        for (int i = 0; i < wave.hardEnemies; i++)
+        for (int i = 0; i < wave.orcEnemies; i++)
         {
-            SpawnEnemy(hardEnemiesPrefab);
-            yield return new WaitForSeconds((wave.duration / 3f) / wave.hardEnemies);
+            SpawnEnemy(orcEnemiesPrefab);
+            yield return new WaitForSeconds((wave.duration / 3f) / wave.orcEnemies);
+        }
+        
+        // Spawn Hard Enemies
+        for (int i = 0; i < wave.ghostEnemies; i++)
+        {
+            SpawnEnemy(ghostEnemiesPrefab);
+            yield return new WaitForSeconds((wave.duration / 3f) / wave.ghostEnemies);
         }
         
         // Final cooldown for the wave duration
@@ -63,6 +75,7 @@ public class WaveManager : MonoBehaviour
         waveRunning = false;
         startWaveButton.interactable = true;
         currentWaveIndex++;
+        waveText.text = (currentWaveIndex + 1).ToString();
     }
 
     void SpawnEnemy(GameObject prefab)

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5952069808137886116}
   - component: {fileID: 1810402726579289409}
   - component: {fileID: 563802826852679944}
+  - component: {fileID: 2348996721050738446}
   m_Layer: 0
   m_Name: EnemyGoblin
   m_TagString: Untagged
@@ -105,11 +106,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 734bcf8e2230de141bf28590c83c86db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  speed: 3
-  health: 3
+  data: {fileID: 11400000, guid: a5cca4e2a86ac824f8883801459c6cef, type: 2}
+  currentSpeed: 0
+  currentHealth: 0
   waypoints: []
   currentWaypoint: 0
   healthSlider: {fileID: 8838236286283337203}
+--- !u!58 &2348996721050738446
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2465556291323999647}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.29
 --- !u!1 &2564373018996149542
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,8 +321,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 5}
-  m_SizeDelta: {x: 100, y: 30}
+  m_AnchoredPosition: {x: 0, y: 4}
+  m_SizeDelta: {x: 60, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8838236286283337203
 MonoBehaviour:

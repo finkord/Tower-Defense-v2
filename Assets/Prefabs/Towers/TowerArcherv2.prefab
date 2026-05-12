@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2609171732219563547}
   - component: {fileID: 2695823715924231796}
+  - component: {fileID: 9049590956426373383}
   m_Layer: 0
   m_Name: TowerArcherv2
   m_TagString: Untagged
@@ -92,6 +93,21 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &9049590956426373383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7585070997814422416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff121d289b88a9c4daa8ce119ad1d34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Tower
+  data: {fileID: 11400000, guid: 330c0d6b763a68f4081b7ba1a3fd363e, type: 2}
+  firePoint: {fileID: 4873470587936176843}
+  turretPart: {fileID: 4873470587936176843}
 --- !u!1 &9015846317461528859
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,7 +118,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4873470587936176843}
   - component: {fileID: 6443012283407194502}
-  - component: {fileID: 5826045170451027012}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -119,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 9015846317461528859}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.19999981, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -184,19 +199,3 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5826045170451027012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9015846317461528859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff121d289b88a9c4daa8ce119ad1d34f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Tower
-  range: 3
-  fireRate: 1
-  projectilePrefab: {fileID: 2603653465894533888, guid: ec075a2b7a3d8ee42a7a3c419b7fbde5, type: 3}
-  firePoint: {fileID: 4873470587936176843}

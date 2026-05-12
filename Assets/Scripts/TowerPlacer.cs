@@ -29,17 +29,25 @@ public class TowerPlacer : MonoBehaviour
 
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseWorldPos.z = 0;
-        
+    
         Vector3Int cellPos = placementMap.WorldToCell(mouseWorldPos);
 
         if (!placementMap.HasTile(cellPos)) return;
         if (occupiedTiles.Contains(cellPos)) return;
+    
+        // Get the Tower component to access its data
+        Tower towerComponent = TowerSelectionUI.SelectedTowerPrefab.GetComponentInChildren<Tower>();
+
+        if (towerComponent != null && towerComponent.data != null)
+        {
+            // Access towerPrice through the ScriptableObject (data)
+            CoinManager.instance.UpdateCoins(-towerComponent.data.towerPrice);
         
-        Instantiate(TowerSelectionUI.SelectedTowerPrefab, ghostInstance.transform.position, Quaternion.identity);
+            Instantiate(TowerSelectionUI.SelectedTowerPrefab, ghostInstance.transform.position, Quaternion.identity);
         
-        TowerSelectionUI.SelectedTowerPrefab = null;
-        
-        occupiedTiles.Add(cellPos);
+            TowerSelectionUI.SelectedTowerPrefab = null;
+            occupiedTiles.Add(cellPos);
+        }
     }
 
     void HandlePlacementHover()

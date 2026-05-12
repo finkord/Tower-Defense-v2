@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    public float range = 3f;
-    public float fireRate = 1f;
-    public GameObject projectilePrefab;
+    public TowerData data; // Reference to ScriptableObject
     public Transform firePoint;
-
+    public Transform turretPart;
+    
     private float fireCooldown = 0f;
 
     void Update()
     {
-        fireCooldown -= Time.deltaTime;
+        if (data == null) return;
 
+        fireCooldown -= Time.deltaTime;
         Enemy target = FindBestTarget();
 
         if (target != null)
@@ -22,39 +22,25 @@ public class Tower : MonoBehaviour
             if (fireCooldown <= 0f)
             {
                 Shoot(target);
-                fireCooldown = 1f / fireRate;
+                fireCooldown = 1f / data.fireRate;
             }
         }
     }
-    
-    public float rotationSpeed = 10f;
 
     void RotateTowardsTarget(Transform targetTransform)
     {
-        Vector3 direction = targetTransform.position - transform.position;
+        if (turretPart == null) return;
+        
+        Vector3 direction = targetTransform.position - turretPart.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
     
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle - 90f);
-        
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        turretPart.rotation = Quaternion.Lerp(turretPart.rotation, targetRotation, data.rotationSpeed * Time.deltaTime);
     }
-
-    // void RotateTowardsTarget(Transform targetTransform)
-    // {
-    //     Vector3 direction = targetTransform.position - transform.position;
-    //     
-    //     float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-    //     
-    //     float rotationOffset = -90f; 
-    //
-    //     transform.rotation = Quaternion.Euler(0, 0, angle + rotationOffset);
-    // }
 
     Enemy FindBestTarget()
     {
-        // Виправлено: FindObjectsOfType викликається без префікса GameObject
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
-
+        Enemy[] enemies = Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None);
         Enemy best = null;
         float bestProgress = -1f;
 
@@ -62,7 +48,7 @@ public class Tower : MonoBehaviour
         {
             float dist = Vector2.Distance(transform.position, e.transform.position);
 
-            if (dist <= range)
+            if (dist <= data.range)
             {
                 if (e.currentWaypoint > bestProgress)
                 {
@@ -71,17 +57,22 @@ public class Tower : MonoBehaviour
                 }
             }
         }
-
         return best;
     }
 
     void Shoot(Enemy target)
     {
-        if (projectilePrefab != null && firePoint != null)
+        if (data.projectilePrefab != null && firePoint != null)
         {
-            GameObject p = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+            GameObject p = Instantiate(data.projectilePrefab, firePoint.position, Quaternion.identity);
             Projectile pr = p.GetComponent<Projectile>();
-            pr.target = target.transform;
+        
+            if (pr != null)
+            {
+                pr.target = target.transform;
+                // Pass the entire ScriptableObject reference
+                pr.data = this.data; 
+            }
         }
     }
 }
