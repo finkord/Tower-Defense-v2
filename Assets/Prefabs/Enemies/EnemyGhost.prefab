@@ -213,7 +213,10 @@ MonoBehaviour:
   currentHealth: 0
   waypoints: []
   currentWaypoint: 0
+  turnSpeed: 360
+  rotationOffset: 0
   healthSlider: {fileID: 4329121082753576501}
+  canvasTransform: {fileID: 978243589645782024}
 --- !u!58 &-1529860464150009318
 CircleCollider2D:
   m_ObjectHideFlags: 0

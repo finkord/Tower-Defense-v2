@@ -200,4 +200,4 @@ MonoBehaviour:
   firePoint: {fileID: 8763151092920317268}
   turretPart: {fileID: 8763151092920317268}
   cloudPSPrefab: {fileID: 2181721389523667334, guid: 0841688b158a6124da557428fb69d7e0, type: 3}
-  shootSFX: {fileID: 8300000, guid: be64544bade297e4d872dd74c66256d2, type: 3}
+  shootSFX: {fileID: 8300000, guid: c80eb9f6bbd7ec741bfe111567b62911, type: 3}

@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class HealthManager : MonoBehaviour
 {
@@ -9,20 +8,45 @@ public class HealthManager : MonoBehaviour
     public int health = 100;
     public TextMeshProUGUI healthTxt;
 
+    [Header("UI Panels")]
+    public GameObject gameOverPanel;
+
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        healthTxt.text = health.ToString();
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
     }
 
     public void UpdateHealth(int changeAmount)
     {
         health += changeAmount;
 
+        // Prevent negative health display
+        if (health < 0) health = 0;
+
         healthTxt.text = health.ToString();
 
         if (health <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            TriggerGameOver();
+        }
+    }
+
+    private void TriggerGameOver()
+    {
+        Time.timeScale = 0f; // Pause the game
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
         }
     }
 }

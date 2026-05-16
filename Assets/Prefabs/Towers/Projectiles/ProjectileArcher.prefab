@@ -107,5 +107,5 @@ MonoBehaviour:
   speed: 6
   target: {fileID: 0}
   hitPSPrefab: {fileID: 3148746477302047550, guid: 628c72387b3ffaa4786b6c3ddc40012b, type: 3}
-  hitSFX: {fileID: 8300000, guid: d9419ba0bfac1e84a95418ac5851caf6, type: 3}
+  hitSFX: {fileID: 8300000, guid: 9bbec451141df4c4ea465c0597939a83, type: 3}
   data: {fileID: 0}
