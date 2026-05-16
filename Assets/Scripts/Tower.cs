@@ -7,7 +7,21 @@ public class Tower : MonoBehaviour
     public Transform turretPart;
     
     private float fireCooldown = 0f;
+    
+    public GameObject cloudPSPrefab;
+    public AudioClip shootSFX;
 
+    void Start()
+    {
+        
+        if (cloudPSPrefab != null)
+        {
+            GameObject cloudEffect = Instantiate(cloudPSPrefab, transform.position, Quaternion.identity);
+            
+            // Destroy(cloudEffect, 2f);
+        }
+    }
+    
     void Update()
     {
         if (data == null) return;
@@ -72,6 +86,11 @@ public class Tower : MonoBehaviour
                 pr.target = target.transform;
                 // Pass the entire ScriptableObject reference
                 pr.data = this.data; 
+            }
+            
+            if (shootSFX != null && AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySFX(shootSFX);
             }
         }
     }

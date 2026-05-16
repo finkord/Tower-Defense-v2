@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   towerName: Archer
   range: 5.5
-  fireRate: 1.2
-  rotationSpeed: 10
+  fireRate: 2
+  rotationSpeed: 15
   towerPrice: 100
   damage: 1
   projectilePrefab: {fileID: 2603653465894533888, guid: ec075a2b7a3d8ee42a7a3c419b7fbde5, type: 3}

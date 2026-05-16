@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   towerName: Cannon
   range: 8.5
-  fireRate: 0.3
-  rotationSpeed: 10
+  fireRate: 0.5
+  rotationSpeed: 15
   towerPrice: 260
   damage: 8
   projectilePrefab: {fileID: 1666731598168237523, guid: 45019fa8faacb004b84572be02b4d090, type: 3}

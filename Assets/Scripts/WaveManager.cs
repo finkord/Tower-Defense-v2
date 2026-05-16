@@ -14,16 +14,20 @@ public class WaveData
 
 public class WaveManager : MonoBehaviour
 {
+    [Header("Wave Settings")]
     public WaveData[] waves;
-    public Button startWaveButton;
     
+    [Header("UI & Controls")]
+    public Button startWaveButton;
+    public TextMeshProUGUI waveText;
+    
+    [Header("Prefabs")]
     public GameObject goblinEnemiesPrefab;
     public GameObject orcEnemiesPrefab;
     public GameObject ghostEnemiesPrefab;
     
+    [Header("Pathfinding")]
     public Transform[] wayPoints;
-    
-    public TextMeshProUGUI waveText;
     
     private int currentWaveIndex = 0;
     private bool waveRunning = false;
@@ -31,7 +35,11 @@ public class WaveManager : MonoBehaviour
     void Start()
     {
         if (startWaveButton != null)
+        {
             startWaveButton.onClick.AddListener(StartWave);
+        }
+        
+        UpdateWaveText();
     }
 
     public void StartWave()
@@ -41,53 +49,69 @@ public class WaveManager : MonoBehaviour
         StartCoroutine(RunWave());
     }
 
-    IEnumerator RunWave()
+    private IEnumerator RunWave()
     {
         waveRunning = true;
         startWaveButton.interactable = false;
 
         WaveData wave = waves[currentWaveIndex];
+        float segmentDuration = wave.duration / 3f;
 
-        // Spawn Easy Enemies
-        for (int i = 0; i < wave.goblinEnemies; i++)
-        {
-            SpawnEnemy(goblinEnemiesPrefab);
-            yield return new WaitForSeconds((wave.duration / 3f) / wave.goblinEnemies);
-        }
-        
-        // Spawn Hard Enemies
-        for (int i = 0; i < wave.orcEnemies; i++)
-        {
-            SpawnEnemy(orcEnemiesPrefab);
-            yield return new WaitForSeconds((wave.duration / 3f) / wave.orcEnemies);
-        }
-        
-        // Spawn Hard Enemies
-        for (int i = 0; i < wave.ghostEnemies; i++)
-        {
-            SpawnEnemy(ghostEnemiesPrefab);
-            yield return new WaitForSeconds((wave.duration / 3f) / wave.ghostEnemies);
-        }
-        
-        // Final cooldown for the wave duration
-        yield return new WaitForSeconds(wave.duration / 3f);
+        // Spawn enemies sequentially 
+        yield return StartCoroutine(SpawnGroup(goblinEnemiesPrefab, wave.goblinEnemies, segmentDuration));
+        yield return StartCoroutine(SpawnGroup(orcEnemiesPrefab, wave.orcEnemies, segmentDuration));
+        yield return StartCoroutine(SpawnGroup(ghostEnemiesPrefab, wave.ghostEnemies, segmentDuration));
         
         waveRunning = false;
-        startWaveButton.interactable = true;
         currentWaveIndex++;
-        waveText.text = (currentWaveIndex + 1).ToString();
+        
+        if (currentWaveIndex < waves.Length)
+        {
+            startWaveButton.interactable = true;
+            UpdateWaveText();
+        }
+        else
+        {
+            // Optional: Handle all waves completed logic here
+            if (waveText != null) waveText.text = "All Waves Cleared!";
+        }
     }
 
-    void SpawnEnemy(GameObject prefab)
+    private IEnumerator SpawnGroup(GameObject prefab, int enemyCount, float duration)
     {
-        if (wayPoints.Length == 0) return;
+        if (enemyCount <= 0)
+        {
+            // Just wait the allocated time if there are no enemies of this type
+            yield return new WaitForSeconds(duration);
+            yield break;
+        }
+
+        float spawnDelay = duration / enemyCount;
+
+        for (int i = 0; i < enemyCount; i++)
+        {
+            SpawnEnemy(prefab);
+            yield return new WaitForSeconds(spawnDelay);
+        }
+    }
+
+    private void SpawnEnemy(GameObject prefab)
+    {
+        if (wayPoints == null || wayPoints.Length == 0) return;
 
         GameObject e = Instantiate(prefab, wayPoints[0].position, Quaternion.identity);
         
-        // Ensure the Enemy script exists on the prefab
         if (e.TryGetComponent(out Enemy enemy))
         {
             enemy.waypoints = wayPoints;
+        }
+    }
+
+    private void UpdateWaveText()
+    {
+        if (waveText != null && currentWaveIndex < waves.Length)
+        {
+            waveText.text = $"Wave - {currentWaveIndex + 1}";
         }
     }
 }

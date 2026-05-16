@@ -108,6 +108,8 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: bd5bb7728c01f12469d5663a025317d0, type: 2}
   firePoint: {fileID: 2074508458651287974}
   turretPart: {fileID: 2074508458651287974}
+  cloudPSPrefab: {fileID: 2181721389523667334, guid: 0841688b158a6124da557428fb69d7e0, type: 3}
+  shootSFX: {fileID: 8300000, guid: 30114844b380b88418785402b1e582c0, type: 3}
 --- !u!1 &1331540245399634426
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 8f;
+    public float speed = 10f;
     public Transform target;
     
-    // This field was missing and caused the error
+    public GameObject hitPSPrefab;
+
+    public AudioClip hitSFX;
+    
     [HideInInspector] public TowerData data; 
 
     void Update()
@@ -67,6 +70,13 @@ public class Projectile : MonoBehaviour
 
         if (e.currentHealth <= 0)
         {
+            if (hitPSPrefab != null)
+            {
+                GameObject hitEffect = Instantiate(hitPSPrefab, e.transform.position, Quaternion.identity);
+                // Destroy(hitEffect, 2f); 
+                AudioManager.Instance.PlaySFX(hitSFX);
+            }
+            
             CoinManager.instance.UpdateCoins(e.data.reward);
             Destroy(e.gameObject);
         }

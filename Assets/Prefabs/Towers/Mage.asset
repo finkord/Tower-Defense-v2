@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Mage
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   towerName: Mage
-  range: 3.5
+  range: 4
   fireRate: 0.6
-  rotationSpeed: 10
+  rotationSpeed: 15
   towerPrice: 180
   damage: 2
   projectilePrefab: {fileID: 6721016053765563738, guid: 8fb0dcb5c647ad44c917f4dbd962d0d9, type: 3}
