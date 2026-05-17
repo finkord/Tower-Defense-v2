@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   towerName: Archer
   range: 5.5
-  fireRate: 1
+  fireRate: 3
   rotationSpeed: 15
   towerPrice: 100
   damage: 2

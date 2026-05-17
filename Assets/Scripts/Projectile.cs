@@ -13,23 +13,39 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        if (target == null)
+        if (target == null || !target.gameObject.activeInHierarchy)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             return;
         }
+
+        Enemy enemy = target.GetComponent<Enemy>();
+        Vector3 targetVelocity = Vector3.zero;
+        if (enemy != null && enemy.waypoints != null && enemy.currentWaypoint < enemy.waypoints.Length)
+        {
+            Vector3 targetDir = (enemy.waypoints[enemy.currentWaypoint].position - enemy.transform.position).normalized;
+            targetVelocity = targetDir * enemy.currentSpeed;
+        }
+
+        // Predict interception point
+        float dist = Vector2.Distance(transform.position, target.position);
+        float timeToReach = dist / speed;
+        Vector3 predictedPos = target.position + targetVelocity * timeToReach;
         
-        Vector3 dir = (target.position - transform.position).normalized;
+        Vector3 dir = (predictedPos - transform.position).normalized;
         transform.position += dir * speed * Time.deltaTime;
         
         // Simple rotation logic
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+        if (dir != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+        }
 
         if (Vector2.Distance(transform.position, target.position) < 0.15f)
         {
             ApplyImpact();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -61,14 +77,16 @@ public class Projectile : MonoBehaviour
 
     void ProcessEnemy(Enemy e)
     {
-        e.currentHealth -= data.damage;
-    
-        if (data.isSlowing)
+        bool wasAlive = e.currentHealth > 0;
+        
+        if (data.isSlowing && wasAlive)
         {
             e.ApplySlow(data.slowFactor, data.slowDuration);
         }
 
-        if (e.currentHealth <= 0)
+        e.TakeDamage(data.damage);
+
+        if (wasAlive && e.currentHealth <= 0)
         {
             if (hitPSPrefab != null)
             {
@@ -76,9 +94,7 @@ public class Projectile : MonoBehaviour
                 // Destroy(hitEffect, 2f); 
                 AudioManager.Instance.PlaySFX(hitSFX);
             }
-            
-            CoinManager.instance.UpdateCoins(e.data.reward);
-            Destroy(e.gameObject);
+            CoinManager.instance.UpdateCoins(e.currentReward);
         }
     }
 }

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Freezer
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   towerName: Freezer
-  range: 4.5
+  range: 5
   fireRate: 0.8
-  rotationSpeed: 10
+  rotationSpeed: 15
   towerPrice: 130
   damage: 1
-  projectilePrefab: {fileID: 3717272936274825120, guid: 1d22a146e2021aa418df097da414b615, type: 3}
+  projectilePrefab: {fileID: 6721016053765563738, guid: 8fb0dcb5c647ad44c917f4dbd962d0d9, type: 3}
   isAoE: 0
   explosionRadius: 0
   isSlowing: 1

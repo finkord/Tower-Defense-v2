@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3717272936274825120
+--- !u!1 &6721016053765563738
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7767593471376945148}
-  - component: {fileID: 1568962876283102971}
-  - component: {fileID: 5885774141492232867}
+  - component: {fileID: 8633353436866838092}
+  - component: {fileID: 7723069840768548112}
+  - component: {fileID: 857273863020778279}
   m_Layer: 0
   m_Name: ProjectileFreezer
   m_TagString: Untagged
@@ -18,29 +18,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7767593471376945148
+--- !u!4 &8633353436866838092
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3717272936274825120}
+  m_GameObject: {fileID: 6721016053765563738}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.79, y: 1.28, z: 0}
+  m_LocalPosition: {x: 2.3, y: 0.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1568962876283102971
+--- !u!212 &7723069840768548112
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3717272936274825120}
+  m_GameObject: {fileID: 6721016053765563738}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -82,29 +82,29 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 5
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2763316765635793350, guid: c53b4febfd252c540b4b1a100acbd745, type: 3}
+  m_Sprite: {fileID: -4183054011527375349, guid: 5567c3f37b4c7ba4c91cc8f546eb60f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.28, y: 0.71}
+  m_Size: {x: 0.4, y: 0.82}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5885774141492232867
+--- !u!114 &857273863020778279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3717272936274825120}
+  m_GameObject: {fileID: 6721016053765563738}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a4570016321b324096b440d8fd02405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  speed: 4
+  speed: 6
   target: {fileID: 0}
   hitPSPrefab: {fileID: 3148746477302047550, guid: 628c72387b3ffaa4786b6c3ddc40012b, type: 3}
   hitSFX: {fileID: 8300000, guid: 9bbec451141df4c4ea465c0597939a83, type: 3}

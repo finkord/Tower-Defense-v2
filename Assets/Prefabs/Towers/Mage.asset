@@ -18,9 +18,9 @@ MonoBehaviour:
   rotationSpeed: 15
   towerPrice: 200
   damage: 2
-  projectilePrefab: {fileID: 6721016053765563738, guid: 8fb0dcb5c647ad44c917f4dbd962d0d9, type: 3}
+  projectilePrefab: {fileID: 3717272936274825120, guid: 1d22a146e2021aa418df097da414b615, type: 3}
   isAoE: 1
-  explosionRadius: 2.2
+  explosionRadius: 2.5
   isSlowing: 0
   slowFactor: 0
   slowDuration: 0

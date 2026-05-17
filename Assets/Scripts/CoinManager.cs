@@ -18,6 +18,12 @@ public class CoinManager : MonoBehaviour
     {
         coins += changeAmount;
         
-        coinTxt.text = coins.ToString();
+        if (coinTxt != null) coinTxt.text = coins.ToString();
+
+        // Dynamically update tower selection UI colors when coins change
+        if (TowerSelectionUI.Instance != null)
+        {
+            TowerSelectionUI.Instance.UpdateHighlights();
+        }
     }
 }

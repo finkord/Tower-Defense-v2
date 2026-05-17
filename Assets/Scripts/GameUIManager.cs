@@ -14,13 +14,13 @@ public class GameUIManager : MonoBehaviour
     public Color speedUpColor;
 
     private bool isPaused = false;
-    private bool isSpeedUp = false;
+    private int currentSpeedMultiplier = 1;
 
     void Start()
     {
         Time.timeScale = 1f; 
         isPaused = false;
-        isSpeedUp = false;
+        currentSpeedMultiplier = 1;
 
         if (volumeSlider != null)
         {
@@ -36,6 +36,7 @@ public class GameUIManager : MonoBehaviour
         if (speedUpBtnImage != null)
         {
             speedUpBtnImage.color = normalColor;
+            UpdateSpeedText();
         }
     }
 
@@ -64,8 +65,8 @@ public class GameUIManager : MonoBehaviour
     {
         isPaused = false;
         
-        // Restore time scale based on speedUp state
-        Time.timeScale = isSpeedUp ? 2f : 1f;
+        // Restore time scale based on speed multiplier
+        Time.timeScale = currentSpeedMultiplier;
 
         if (pauseMenuPanel != null)
         {
@@ -75,18 +76,33 @@ public class GameUIManager : MonoBehaviour
 
     public void ToggleSpeedUp()
     {
-        isSpeedUp = !isSpeedUp;
+        if (currentSpeedMultiplier == 1) currentSpeedMultiplier = 2;
+        else if (currentSpeedMultiplier == 2) currentSpeedMultiplier = 4;
+        else currentSpeedMultiplier = 1;
 
         // Update button color instantly
         if (speedUpBtnImage != null)
         {
-            speedUpBtnImage.color = isSpeedUp ? speedUpColor : normalColor;
+            speedUpBtnImage.color = currentSpeedMultiplier == 1 ? normalColor : speedUpColor;
+            UpdateSpeedText();
         }
 
         // Apply time scale change only if the game is not paused
         if (!isPaused)
         {
-            Time.timeScale = isSpeedUp ? 2f : 1f;
+            Time.timeScale = currentSpeedMultiplier;
+        }
+    }
+
+    private void UpdateSpeedText()
+    {
+        if (speedUpBtnImage != null)
+        {
+            var text = speedUpBtnImage.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            if (text != null)
+            {
+                text.text = "x" + currentSpeedMultiplier;
+            }
         }
     }
 

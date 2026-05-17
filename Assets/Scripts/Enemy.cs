@@ -8,28 +8,33 @@ public class Enemy : MonoBehaviour
     
     [HideInInspector] public float currentSpeed;
     [HideInInspector] public int currentHealth;
+    [HideInInspector] public int currentReward;
     
     public Transform[] waypoints;
     public int currentWaypoint = 0;
 
     [Header("Movement Settings")]
-    public float turnSpeed = 360f; // Rotation speed in degrees per second
-    public float rotationOffset = 0f; // Adjust if the sprite does not face right natively
+    public float turnSpeed = 360f; 
+    public float rotationOffset = 0f; 
 
     [Header("UI Settings")]
     public Slider healthSlider;
-    public Transform canvasTransform; // Assign Canvas here to prevent it from spinning
+    public Transform canvasTransform; 
 
-    void Start()
+    public void Init(float healthMultiplier = 1f, float speedMultiplier = 1f, float rewardMultiplier = 1f)
     {
         if (data != null)
         {
-            currentHealth = data.health;
-            currentSpeed = data.speed;
+            currentHealth = Mathf.RoundToInt(data.health * healthMultiplier);
+            currentSpeed = data.speed * speedMultiplier;
+            currentReward = Mathf.RoundToInt(data.reward * rewardMultiplier);
+            currentWaypoint = 0; // Reset path progress
+            
+            StopCoroutine(nameof(SlowRoutine)); // Clear previous slow effects
             
             if (healthSlider != null)
             {
-                healthSlider.maxValue = data.health;
+                healthSlider.maxValue = currentHealth;
                 healthSlider.value = currentHealth;
             }
         }
@@ -37,20 +42,13 @@ public class Enemy : MonoBehaviour
     
     void Update()
     {
-        if (healthSlider != null)
-        {
-            healthSlider.value = currentHealth;
-        }
-
         if (waypoints == null || waypoints.Length == 0) return;
         
         Transform target = waypoints[currentWaypoint];
         Vector3 dir = (target.position - transform.position).normalized;
         
-        // Move towards waypoint
         transform.position += dir * currentSpeed * Time.deltaTime;
 
-        // Rotate enemy towards movement direction
         if (dir != Vector3.zero)
         {
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -64,14 +62,28 @@ public class Enemy : MonoBehaviour
             if (currentWaypoint >= waypoints.Length)
             {
                 HealthManager.Instance.UpdateHealth(-1); 
-                Destroy(gameObject);
+                gameObject.SetActive(false); // Return to pool
             }
+        }
+    }
+    
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
+        }
+
+        if (currentHealth <= 0)
+        {
+            gameObject.SetActive(false); // Return to pool
         }
     }
 
     void LateUpdate()
     {
-        // Lock Canvas rotation so UI elements remain upright
         if (canvasTransform != null)
         {
             canvasTransform.rotation = Quaternion.identity;
