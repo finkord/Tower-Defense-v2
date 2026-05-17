@@ -102,10 +102,13 @@ public class TowerPlacer : MonoBehaviour
             if (CoinManager.instance.coins >= towerComponent.data.towerPrice)
             {
                 CoinManager.instance.UpdateCoins(-towerComponent.data.towerPrice);
-                GameObject newTower = Instantiate(TowerSelectionUI.SelectedTowerPrefab, ghostInstance.transform.position, Quaternion.identity);
+                
+                // Calculate precise center based on current cell position
+                Vector3 worldCenter = placementMap.GetCellCenterWorld(cellPos);
+                worldCenter.z = 0;
+                
+                GameObject newTower = Instantiate(TowerSelectionUI.SelectedTowerPrefab, worldCenter, Quaternion.identity);
                 placedTowers.Add(cellPos, newTower);
-
-                // Keep it selected even if they run out of coins, UI will highlight red
             }
             // If they can't afford it, it does nothing (no placement, no deselection)
         }
