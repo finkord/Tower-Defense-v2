@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Goblin
   speed: 3.8
-  health: 2
-  reward: 10
+  health: 5
+  reward: 6
   immuneToSlow: 0

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyName: Ghost
   speed: 2.4
-  health: 6
-  reward: 25
+  health: 8
+  reward: 16
   immuneToSlow: 1
