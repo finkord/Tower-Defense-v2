@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
         Transform target = waypoints[currentWaypoint];
         Vector3 dir = (target.position - transform.position).normalized;
         
-        transform.position += dir * currentSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, target.position, currentSpeed * Time.deltaTime);
 
         if (dir != Vector3.zero)
         {
@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
         }
 
-        if (Vector3.Distance(transform.position, target.position) < 0.05f)
+        if (Vector3.Distance(transform.position, target.position) <= 0.001f)
         {
             currentWaypoint++;
             if (currentWaypoint >= waypoints.Length)

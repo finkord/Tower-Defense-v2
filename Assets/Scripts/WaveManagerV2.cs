@@ -231,4 +231,57 @@ public class WaveManagerV2 : MonoBehaviour
             waveText.text = $"Wave - {currentWaveIndex + 1} / {maxWaves}";
         }
     }
+
+    [Header("Debug Settings")]
+    public GameObject debugPanel;
+    public TextMeshProUGUI debugText;
+
+    private void Update()
+    {
+        if (debugPanel != null && debugPanel.activeInHierarchy && debugText != null)
+        {
+            float hMult = 1f + (currentWaveIndex * healthScalePerWave);
+            float sMult = 1f + (currentWaveIndex * speedScalePerWave);
+            float rMult = 1f + (currentWaveIndex * rewardScalePerWave);
+            int currentBudget = CalculateBudget(currentWaveIndex);
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            sb.AppendLine("--- WaveManagerV2 Debug ---");
+            sb.AppendLine($"Wave Mode: {waveMode}");
+            sb.AppendLine($"Current Wave: {currentWaveIndex}");
+            sb.AppendLine($"Max Waves: {maxWaves}");
+            sb.AppendLine($"Wave Running: {waveRunning}");
+            sb.AppendLine($"Health Mult: {hMult}");
+            sb.AppendLine($"Speed Mult: {sMult}");
+            sb.AppendLine($"Reward Mult: {rMult}");
+            sb.AppendLine($"Current Budget: {currentBudget}");
+            sb.AppendLine("--- Enemy Pools ---");
+
+            if (availableEnemies != null)
+            {
+                foreach(var e in availableEnemies)
+                {
+                    int activeCount = 0;
+                    if (e.pool != null)
+                    {
+                        foreach(var obj in e.pool)
+                        {
+                            if (obj != null && obj.activeInHierarchy) activeCount++;
+                        }
+                        string prefabName = e.prefab != null ? e.prefab.name : "Unknown";
+                        sb.AppendLine($"{prefabName}: {activeCount} active / {e.pool.Count} total");
+                    }
+                }
+            }
+            debugText.text = sb.ToString();
+        }
+    }
+
+    public void ToggleDebugPanel(bool isOn)
+    {
+        if (debugPanel != null)
+        {
+            debugPanel.SetActive(isOn);
+        }
+    }
 }

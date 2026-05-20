@@ -27,25 +27,28 @@ public class Projectile : MonoBehaviour
             targetVelocity = targetDir * enemy.currentSpeed;
         }
 
-        // Predict interception point
         float dist = Vector2.Distance(transform.position, target.position);
+        float moveDistance = speed * Time.deltaTime;
+
+        if (dist <= moveDistance || dist < 0.15f)
+        {
+            ApplyImpact();
+            gameObject.SetActive(false);
+            return;
+        }
+
+        // Predict interception point
         float timeToReach = dist / speed;
         Vector3 predictedPos = target.position + targetVelocity * timeToReach;
         
         Vector3 dir = (predictedPos - transform.position).normalized;
-        transform.position += dir * speed * Time.deltaTime;
+        transform.position += dir * moveDistance;
         
         // Simple rotation logic
         if (dir != Vector3.zero)
         {
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
-        }
-
-        if (Vector2.Distance(transform.position, target.position) < 0.15f)
-        {
-            ApplyImpact();
-            gameObject.SetActive(false);
         }
     }
 
