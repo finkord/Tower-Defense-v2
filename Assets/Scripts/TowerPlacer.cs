@@ -42,6 +42,33 @@ public class TowerPlacer : MonoBehaviour
         return clone;
     }
     
+    bool HasDecorationInCell(Vector3Int placementCellPos)
+    {
+        if (decorationsMap == null) return false;
+
+        Vector3 cellCenter = placementMap.GetCellCenterWorld(placementCellPos);
+        Vector3 cellSize = placementMap.layoutGrid.cellSize;
+
+        float inset = 0.05f;
+        Vector3 minWorld = cellCenter - (cellSize / 2f) + new Vector3(inset, inset, 0);
+        Vector3 maxWorld = cellCenter + (cellSize / 2f) - new Vector3(inset, inset, 0);
+
+        Vector3Int minDecCell = decorationsMap.WorldToCell(minWorld);
+        Vector3Int maxDecCell = decorationsMap.WorldToCell(maxWorld);
+
+        for (int x = minDecCell.x; x <= maxDecCell.x; x++)
+        {
+            for (int y = minDecCell.y; y <= maxDecCell.y; y++)
+            {
+                if (decorationsMap.HasTile(new Vector3Int(x, y, 0)))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     void Update()
     {
         HandleTowerDeletion();
@@ -93,7 +120,7 @@ public class TowerPlacer : MonoBehaviour
         Vector3Int cellPos = placementMap.WorldToCell(mouseWorldPos);
 
         if (!placementMap.HasTile(cellPos)) return;
-        if (decorationsMap != null && decorationsMap.HasTile(cellPos)) return;
+        if (HasDecorationInCell(cellPos)) return;
         if (placedTowers.ContainsKey(cellPos)) return;
     
         // Get the Tower component to access its data
@@ -154,7 +181,7 @@ public class TowerPlacer : MonoBehaviour
         }
 
         bool valid = placementMap.HasTile(cellPos) && !placedTowers.ContainsKey(cellPos) && canAfford;
-        if (decorationsMap != null && decorationsMap.HasTile(cellPos)) valid = false;
+        if (HasDecorationInCell(cellPos)) valid = false;
         
         if (ghostInstance.TryGetComponent<GhostTower>(out var ghostScript))
         {
