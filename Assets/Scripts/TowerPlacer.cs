@@ -8,6 +8,7 @@ public class TowerPlacer : MonoBehaviour
 {
     public Tilemap placementMap;
     public Tilemap nonPlacementMap;
+    public Tilemap decorationsMap;
 
     public GameObject ghostPrefab;
     
@@ -92,6 +93,7 @@ public class TowerPlacer : MonoBehaviour
         Vector3Int cellPos = placementMap.WorldToCell(mouseWorldPos);
 
         if (!placementMap.HasTile(cellPos)) return;
+        if (decorationsMap != null && decorationsMap.HasTile(cellPos)) return;
         if (placedTowers.ContainsKey(cellPos)) return;
     
         // Get the Tower component to access its data
@@ -152,6 +154,7 @@ public class TowerPlacer : MonoBehaviour
         }
 
         bool valid = placementMap.HasTile(cellPos) && !placedTowers.ContainsKey(cellPos) && canAfford;
+        if (decorationsMap != null && decorationsMap.HasTile(cellPos)) valid = false;
         
         if (ghostInstance.TryGetComponent<GhostTower>(out var ghostScript))
         {
