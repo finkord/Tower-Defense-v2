@@ -29,7 +29,6 @@ public class HealthManager : MonoBehaviour
     {
         health += changeAmount;
 
-        // Prevent negative health display
         if (health < 0) health = 0;
 
         healthTxt.text = health.ToString();
@@ -42,7 +41,7 @@ public class HealthManager : MonoBehaviour
 
     private void TriggerGameOver()
     {
-        Time.timeScale = 0f; // Pause the game
+        Time.timeScale = 0f; 
 
         if (gameOverPanel != null)
         {

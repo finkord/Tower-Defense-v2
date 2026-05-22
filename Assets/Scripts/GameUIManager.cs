@@ -65,7 +65,6 @@ public class GameUIManager : MonoBehaviour
     {
         isPaused = false;
         
-        // Restore time scale based on speed multiplier
         Time.timeScale = currentSpeedMultiplier;
 
         if (pauseMenuPanel != null)
@@ -80,14 +79,12 @@ public class GameUIManager : MonoBehaviour
         else if (currentSpeedMultiplier == 2) currentSpeedMultiplier = 4;
         else currentSpeedMultiplier = 1;
 
-        // Update button color instantly
         if (speedUpBtnImage != null)
         {
             speedUpBtnImage.color = currentSpeedMultiplier == 1 ? normalColor : speedUpColor;
             UpdateSpeedText();
         }
 
-        // Apply time scale change only if the game is not paused
         if (!isPaused)
         {
             Time.timeScale = currentSpeedMultiplier;

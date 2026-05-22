@@ -37,14 +37,12 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        // Predict interception point
         float timeToReach = dist / speed;
         Vector3 predictedPos = target.position + targetVelocity * timeToReach;
         
         Vector3 dir = (predictedPos - transform.position).normalized;
         transform.position += dir * moveDistance;
         
-        // Simple rotation logic
         if (dir != Vector3.zero)
         {
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -58,10 +56,8 @@ public class Projectile : MonoBehaviour
 
         if (data.isAoE)
         {
-            // Draw debug sphere in console/editor
             Debug.Log($"AoE Explosion! Radius: {data.explosionRadius}");
         
-            // Use a LayerMask if your enemies are on a specific layer
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, data.explosionRadius);
             
             foreach (var col in hitEnemies)
@@ -72,7 +68,6 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            // Handle single target for Archer/Freezer
             Enemy e = target.GetComponent<Enemy>();
             if (e != null) ProcessEnemy(e);
         }
@@ -94,7 +89,6 @@ public class Projectile : MonoBehaviour
             if (hitPSPrefab != null)
             {
                 GameObject hitEffect = Instantiate(hitPSPrefab, e.transform.position, Quaternion.identity);
-                // Destroy(hitEffect, 2f); 
                 AudioManager.Instance.PlaySFX(hitSFX);
             }
             CoinManager.instance.UpdateCoins(e.currentReward);
