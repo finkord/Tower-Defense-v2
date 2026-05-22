@@ -15,6 +15,6 @@ public class TowerData : ScriptableObject
     public bool isAoE;
     public float explosionRadius;
     public bool isSlowing;
-    public float slowFactor; // 0.5 means 50% speed
+    public float slowFactor; 
     public float slowDuration;
 }

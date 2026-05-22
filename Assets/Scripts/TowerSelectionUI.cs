@@ -15,13 +15,13 @@ public class TowerSelectionUI : MonoBehaviour
 
     [Header("Highlight Settings")]
     public Color normalColor = Color.white;
-    public Color selectedColor = new Color(0.7f, 1f, 0.7f); // Light green
-    public Color unaffordableColor = new Color(1f, 0.5f, 0.5f); // Red
+    public Color selectedColor = new Color(0.7f, 1f, 0.7f); 
+    public Color unaffordableColor = new Color(1f, 0.5f, 0.5f); 
     public List<TowerButtonData> towerButtons = new List<TowerButtonData>();
 
     [Header("Icon Settings")]
     public float iconScale = 1f;
-    public float pixelsPerUnit = 100f; // Standard Unity PPU
+    public float pixelsPerUnit = 100f; 
 
     private void Awake()
     {
@@ -67,11 +67,9 @@ public class TowerSelectionUI : MonoBehaviour
                 Transform iconTransform = btnData.buttonImage.transform.Find("Icon");
                 if (iconTransform != null)
                 {
-                    // Disable original single-image icon
                     Image defaultImg = iconTransform.GetComponent<Image>();
                     if (defaultImg != null) defaultImg.enabled = false;
 
-                    // Generate full prefab hierarchy using UI Images
                     GameObject root = new GameObject("PrefabVisuals");
                     RectTransform rootRT = root.AddComponent<RectTransform>();
                     rootRT.SetParent(iconTransform, false);
@@ -90,7 +88,6 @@ public class TowerSelectionUI : MonoBehaviour
         RectTransform rt = uiNode.AddComponent<RectTransform>();
         rt.SetParent(parentUI, false);
 
-        // Convert world units to UI pixels using PPU
         rt.localPosition = prefabNode.transform.localPosition * pixelsPerUnit;
         rt.localRotation = prefabNode.transform.localRotation;
         rt.localScale = prefabNode.transform.localScale;
@@ -130,13 +127,10 @@ public class TowerSelectionUI : MonoBehaviour
             return;
         }
 
-        // Get Tower component from prefab
         Tower towerScript = towerPrefab.GetComponentInChildren<Tower>();
 
-        // Check if component and its ScriptableObject data exist
         if (towerScript != null && towerScript.data != null)
         {
-            // Allow selection regardless of price; highlighting handles feedback
             SelectedTowerPrefab = towerPrefab;
         }
     }

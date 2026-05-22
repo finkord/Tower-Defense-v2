@@ -28,9 +28,9 @@ public class Enemy : MonoBehaviour
             currentHealth = Mathf.RoundToInt(data.health * healthMultiplier);
             currentSpeed = data.speed * speedMultiplier;
             currentReward = Mathf.RoundToInt(data.reward * rewardMultiplier);
-            currentWaypoint = 0; // Reset path progress
+            currentWaypoint = 0; 
             
-            StopCoroutine(nameof(SlowRoutine)); // Clear previous slow effects
+            StopCoroutine(nameof(SlowRoutine)); 
             
             if (healthSlider != null)
             {
@@ -62,7 +62,7 @@ public class Enemy : MonoBehaviour
             if (currentWaypoint >= waypoints.Length)
             {
                 HealthManager.Instance.UpdateHealth(-1); 
-                gameObject.SetActive(false); // Return to pool
+                gameObject.SetActive(false); 
             }
         }
     }
@@ -78,7 +78,7 @@ public class Enemy : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            gameObject.SetActive(false); // Return to pool
+            gameObject.SetActive(false); 
         }
     }
 

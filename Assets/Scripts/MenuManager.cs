@@ -16,7 +16,6 @@ public class MenuManager : MonoBehaviour
 
     public void Select10WaveMode()
     {
-        // 0 = Finite Mode (10 Waves)
         PlayerPrefs.SetInt("GameMode", 0);
         PlayerPrefs.Save();
         ShowMapSelection();
@@ -24,7 +23,6 @@ public class MenuManager : MonoBehaviour
 
     public void SelectEndlessMode()
     {
-        // 1 = Endless Mode
         PlayerPrefs.SetInt("GameMode", 1);
         PlayerPrefs.Save();
         ShowMapSelection();
@@ -37,8 +35,7 @@ public class MenuManager : MonoBehaviour
             mapSelectionPanel.SetActive(true);
         }
     }
-
-    // New method to close map panel and return to mode selection
+    
     public void CloseMapSelection()
     {
         if (mapSelectionPanel != null)

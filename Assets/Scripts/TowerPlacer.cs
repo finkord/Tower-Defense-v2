@@ -8,6 +8,7 @@ public class TowerPlacer : MonoBehaviour
 {
     public Tilemap placementMap;
     public Tilemap nonPlacementMap;
+    public Tilemap decorationsMap;
 
     public GameObject ghostPrefab;
     
@@ -41,6 +42,33 @@ public class TowerPlacer : MonoBehaviour
         return clone;
     }
     
+    bool HasDecorationInCell(Vector3Int placementCellPos)
+    {
+        if (decorationsMap == null) return false;
+
+        Vector3 cellCenter = placementMap.GetCellCenterWorld(placementCellPos);
+        Vector3 cellSize = placementMap.layoutGrid.cellSize;
+
+        float inset = 0.05f;
+        Vector3 minWorld = cellCenter - (cellSize / 2f) + new Vector3(inset, inset, 0);
+        Vector3 maxWorld = cellCenter + (cellSize / 2f) - new Vector3(inset, inset, 0);
+
+        Vector3Int minDecCell = decorationsMap.WorldToCell(minWorld);
+        Vector3Int maxDecCell = decorationsMap.WorldToCell(maxWorld);
+
+        for (int x = minDecCell.x; x <= maxDecCell.x; x++)
+        {
+            for (int y = minDecCell.y; y <= maxDecCell.y; y++)
+            {
+                if (decorationsMap.HasTile(new Vector3Int(x, y, 0)))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     void Update()
     {
         HandleTowerDeletion();
@@ -50,16 +78,14 @@ public class TowerPlacer : MonoBehaviour
 
     void HandleTowerDeletion()
     {
-        if (Input.GetMouseButtonDown(1)) // Right-click
+        if (Input.GetMouseButtonDown(1)) 
         {
             if (TowerSelectionUI.SelectedTowerPrefab != null)
             {
-                // Cancel placement
                 TowerSelectionUI.SelectedTowerPrefab = null;
                 return;
             }
 
-            // Otherwise try to delete placed tower
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mouseWorldPos.z = 0;
             Vector3Int cellPos = placementMap.WorldToCell(mouseWorldPos);
@@ -69,7 +95,6 @@ public class TowerPlacer : MonoBehaviour
                 Tower towerComponent = towerToDelete.GetComponentInChildren<Tower>();
                 if (towerComponent != null && towerComponent.data != null)
                 {
-                    // Refund 50% of the price
                     CoinManager.instance.UpdateCoins(towerComponent.data.towerPrice / 2);
                 }
                 
@@ -92,9 +117,9 @@ public class TowerPlacer : MonoBehaviour
         Vector3Int cellPos = placementMap.WorldToCell(mouseWorldPos);
 
         if (!placementMap.HasTile(cellPos)) return;
+        if (HasDecorationInCell(cellPos)) return;
         if (placedTowers.ContainsKey(cellPos)) return;
     
-        // Get the Tower component to access its data
         Tower towerComponent = TowerSelectionUI.SelectedTowerPrefab.GetComponentInChildren<Tower>();
 
         if (towerComponent != null && towerComponent.data != null)
@@ -102,15 +127,13 @@ public class TowerPlacer : MonoBehaviour
             if (CoinManager.instance.coins >= towerComponent.data.towerPrice)
             {
                 CoinManager.instance.UpdateCoins(-towerComponent.data.towerPrice);
-                
-                // Calculate precise center based on current cell position
+
                 Vector3 worldCenter = placementMap.GetCellCenterWorld(cellPos);
                 worldCenter.z = 0;
                 
                 GameObject newTower = Instantiate(TowerSelectionUI.SelectedTowerPrefab, worldCenter, Quaternion.identity);
                 placedTowers.Add(cellPos, newTower);
             }
-            // If they can't afford it, it does nothing (no placement, no deselection)
         }
     }
 
@@ -152,6 +175,7 @@ public class TowerPlacer : MonoBehaviour
         }
 
         bool valid = placementMap.HasTile(cellPos) && !placedTowers.ContainsKey(cellPos) && canAfford;
+        if (HasDecorationInCell(cellPos)) valid = false;
         
         if (ghostInstance.TryGetComponent<GhostTower>(out var ghostScript))
         {

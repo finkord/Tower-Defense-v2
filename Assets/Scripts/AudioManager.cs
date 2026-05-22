@@ -29,12 +29,11 @@ public class AudioManager : MonoBehaviour
     {
         if (clip == null) return;
 
-        // Prevent audio stacking/glitching (multiple identical sounds on exact same frame)
         if (lastPlayTime.TryGetValue(clip, out float lastTime))
         {
             if (Time.time - lastTime < clipCooldown)
             {
-                return; // Drop the sound to save voices and prevent glitching
+                return;
             }
         }
 
@@ -66,6 +65,6 @@ public class AudioManager : MonoBehaviour
             return newSource;
         }
 
-        return null; // Drop the sound if we hit the hard limit
+        return null; 
     }
 }

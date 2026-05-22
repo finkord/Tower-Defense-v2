@@ -104,8 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a4570016321b324096b440d8fd02405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  speed: 6
+  speed: 7
   target: {fileID: 0}
   hitPSPrefab: {fileID: 3148746477302047550, guid: 628c72387b3ffaa4786b6c3ddc40012b, type: 3}
-  hitSFX: {fileID: 8300000, guid: 9bbec451141df4c4ea465c0597939a83, type: 3}
+  hitSFX: {fileID: 0}
+  deathPSPrefab: {fileID: 4215518999339945496, guid: 573e568c7c1457d41ab05320cb62ed29, type: 3}
+  deathSFX: {fileID: 8300000, guid: 9bbec451141df4c4ea465c0597939a83, type: 3}
   data: {fileID: 0}

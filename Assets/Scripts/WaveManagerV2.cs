@@ -15,7 +15,7 @@ public class EnemySpawnConfig
 {
     public GameObject prefab;
     public EnemyData data; 
-    [HideInInspector] public List<GameObject> pool = new List<GameObject>(); // Store instantiated enemies here
+    [HideInInspector] public List<GameObject> pool = new List<GameObject>(); 
 }
 
 public class WaveManagerV2 : MonoBehaviour
@@ -25,9 +25,9 @@ public class WaveManagerV2 : MonoBehaviour
     public int maxWaves = 10; 
 
     [Header("Difficulty Scaling")]
-    public float healthScalePerWave = 0.2f; // 20% health increase per wave
-    public float speedScalePerWave = 0.05f; // 5% speed increase per wave
-    public float rewardScalePerWave = 0.1f; // 10% reward increase per wave
+    public float healthScalePerWave = 0.2f; 
+    public float speedScalePerWave = 0.05f; 
+    public float rewardScalePerWave = 0.1f; 
 
     [Header("Budget Settings")]
     public float initialBudget = 10f;
@@ -114,7 +114,6 @@ public class WaveManagerV2 : MonoBehaviour
             yield return new WaitForSeconds(spawnInterval);
         }
         
-        // Wait until all tracked enemies are either destroyed OR inactive (returned to pool)
         while (spawnedEnemies.Exists(enemy => enemy != null && enemy.activeInHierarchy))
         {
             yield return new WaitForSeconds(0.5f);
@@ -141,7 +140,6 @@ public class WaveManagerV2 : MonoBehaviour
         return Mathf.RoundToInt(initialBudget * multiplier);
     }
 
-    // Changed return type to List<EnemySpawnConfig> to track which pool to use
     private List<EnemySpawnConfig> GenerateWave(int budget)
     {
         List<EnemySpawnConfig> waveList = new List<EnemySpawnConfig>();
@@ -182,7 +180,6 @@ public class WaveManagerV2 : MonoBehaviour
 
         GameObject enemyObj = null;
 
-        // 1. Try to find an inactive enemy in the pool
         foreach (GameObject pooledObj in config.pool)
         {
             if (pooledObj != null && !pooledObj.activeInHierarchy)
@@ -192,7 +189,6 @@ public class WaveManagerV2 : MonoBehaviour
             }
         }
 
-        // 2. If no inactive enemy found, instantiate a new one and add it to the pool
         if (enemyObj == null)
         {
             enemyObj = Instantiate(config.prefab, wayPoints[0].position, Quaternion.identity);
@@ -200,12 +196,10 @@ public class WaveManagerV2 : MonoBehaviour
         }
         else
         {
-            // Move existing enemy to start position and activate
             enemyObj.transform.position = wayPoints[0].position;
             enemyObj.SetActive(true);
         }
         
-        // 3. Reset enemy state
         if (enemyObj.TryGetComponent(out Enemy enemy))
         {
             enemy.waypoints = wayPoints;

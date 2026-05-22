@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Projectile : MonoBehaviour
 {
@@ -6,10 +7,40 @@ public class Projectile : MonoBehaviour
     public Transform target;
     
     public GameObject hitPSPrefab;
-
     public AudioClip hitSFX;
+
+    public GameObject deathPSPrefab;
+    public AudioClip deathSFX;
     
     [HideInInspector] public TowerData data; 
+
+    private static Dictionary<GameObject, List<GameObject>> particlePools = new Dictionary<GameObject, List<GameObject>>();
+
+    private GameObject SpawnParticle(GameObject prefab, Vector3 position)
+    {
+        if (prefab == null) return null;
+
+        if (!particlePools.ContainsKey(prefab))
+        {
+            particlePools[prefab] = new List<GameObject>();
+        }
+
+        particlePools[prefab].RemoveAll(item => item == null);
+
+        foreach (var obj in particlePools[prefab])
+        {
+            if (!obj.activeInHierarchy)
+            {
+                obj.transform.position = position;
+                obj.SetActive(true);
+                return obj;
+            }
+        }
+
+        GameObject newObj = Instantiate(prefab, position, Quaternion.identity);
+        particlePools[prefab].Add(newObj);
+        return newObj;
+    }
 
     void Update()
     {
@@ -37,14 +68,12 @@ public class Projectile : MonoBehaviour
             return;
         }
 
-        // Predict interception point
         float timeToReach = dist / speed;
         Vector3 predictedPos = target.position + targetVelocity * timeToReach;
         
         Vector3 dir = (predictedPos - transform.position).normalized;
         transform.position += dir * moveDistance;
         
-        // Simple rotation logic
         if (dir != Vector3.zero)
         {
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -54,14 +83,21 @@ public class Projectile : MonoBehaviour
 
     void ApplyImpact()
     {
+        if (hitPSPrefab != null)
+        {
+            SpawnParticle(hitPSPrefab, transform.position);
+        }
+        if (hitSFX != null)
+        {
+            AudioManager.Instance.PlaySFX(hitSFX);
+        }
+
         if (data == null) return;
 
         if (data.isAoE)
         {
-            // Draw debug sphere in console/editor
-            Debug.Log($"AoE Explosion! Radius: {data.explosionRadius}");
+            // Debug.Log($"AoE Explosion! Radius: {data.explosionRadius}");
         
-            // Use a LayerMask if your enemies are on a specific layer
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, data.explosionRadius);
             
             foreach (var col in hitEnemies)
@@ -72,7 +108,6 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            // Handle single target for Archer/Freezer
             Enemy e = target.GetComponent<Enemy>();
             if (e != null) ProcessEnemy(e);
         }
@@ -91,11 +126,13 @@ public class Projectile : MonoBehaviour
 
         if (wasAlive && e.currentHealth <= 0)
         {
-            if (hitPSPrefab != null)
+            if (deathPSPrefab != null)
             {
-                GameObject hitEffect = Instantiate(hitPSPrefab, e.transform.position, Quaternion.identity);
-                // Destroy(hitEffect, 2f); 
-                AudioManager.Instance.PlaySFX(hitSFX);
+                SpawnParticle(deathPSPrefab, e.transform.position);
+            }
+            if (deathSFX != null)
+            {
+                AudioManager.Instance.PlaySFX(deathSFX);
             }
             CoinManager.instance.UpdateCoins(e.currentReward);
         }

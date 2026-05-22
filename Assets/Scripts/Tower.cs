@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Tower : MonoBehaviour
 {
-    public TowerData data; // Reference to ScriptableObject
+    public TowerData data; 
     public Transform[] firePoints;
     private int currentFirePointIndex = 0;
     public Transform turretPart;
@@ -21,8 +21,6 @@ public class Tower : MonoBehaviour
         if (cloudPSPrefab != null)
         {
             GameObject cloudEffect = Instantiate(cloudPSPrefab, transform.position, Quaternion.identity);
-            
-            // Destroy(cloudEffect, 2f);
         }
     }
     
@@ -35,7 +33,6 @@ public class Tower : MonoBehaviour
 
         if (target != null)
         {
-            // Predictive Aiming: Calculate where the enemy will be
             Vector3 predictedPos = target.transform.position;
             float projectileSpeed = 10f;
             if (data.projectilePrefab != null)
@@ -105,8 +102,7 @@ public class Tower : MonoBehaviour
             if (firePoints != null && firePoints.Length > 0 && firePoints[0] != null)
             {
                 currentFirePoint = firePoints[currentFirePointIndex];
-                
-                // Advance to the next valid fire point
+
                 currentFirePointIndex = (currentFirePointIndex + 1) % firePoints.Length;
                 while (firePoints[currentFirePointIndex] == null && currentFirePointIndex != 0)
                 {
@@ -119,7 +115,6 @@ public class Tower : MonoBehaviour
                 projectilePools[data.projectilePrefab] = new List<GameObject>();
             }
 
-            // Clean up any destroyed objects from previous scenes
             projectilePools[data.projectilePrefab].RemoveAll(item => item == null);
 
             GameObject p = null;
@@ -149,7 +144,6 @@ public class Tower : MonoBehaviour
             if (pr != null)
             {
                 pr.target = target.transform;
-                // Pass the entire ScriptableObject reference
                 pr.data = this.data; 
             }
             

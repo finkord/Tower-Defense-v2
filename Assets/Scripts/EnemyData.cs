@@ -9,5 +9,5 @@ public class EnemyData : ScriptableObject
     public int reward;
     
     [Header("Special Features")]
-    public bool immuneToSlow; // Special flag for Ghost type
+    public bool immuneToSlow; 
 }
