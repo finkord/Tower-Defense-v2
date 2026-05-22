@@ -15,5 +15,5 @@ MonoBehaviour:
   enemyName: Ghost
   speed: 2.4
   health: 8
-  reward: 16
+  reward: 10
   immuneToSlow: 1

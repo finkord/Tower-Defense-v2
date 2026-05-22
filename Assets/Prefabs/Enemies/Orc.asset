@@ -15,5 +15,5 @@ MonoBehaviour:
   enemyName: Orc
   speed: 1.5
   health: 28
-  reward: 25
+  reward: 15
   immuneToSlow: 0
