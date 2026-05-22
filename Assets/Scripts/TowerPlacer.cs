@@ -78,16 +78,14 @@ public class TowerPlacer : MonoBehaviour
 
     void HandleTowerDeletion()
     {
-        if (Input.GetMouseButtonDown(1)) // Right-click
+        if (Input.GetMouseButtonDown(1)) 
         {
             if (TowerSelectionUI.SelectedTowerPrefab != null)
             {
-                // Cancel placement
                 TowerSelectionUI.SelectedTowerPrefab = null;
                 return;
             }
 
-            // Otherwise try to delete placed tower
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mouseWorldPos.z = 0;
             Vector3Int cellPos = placementMap.WorldToCell(mouseWorldPos);
@@ -97,7 +95,6 @@ public class TowerPlacer : MonoBehaviour
                 Tower towerComponent = towerToDelete.GetComponentInChildren<Tower>();
                 if (towerComponent != null && towerComponent.data != null)
                 {
-                    // Refund 50% of the price
                     CoinManager.instance.UpdateCoins(towerComponent.data.towerPrice / 2);
                 }
                 
@@ -123,7 +120,6 @@ public class TowerPlacer : MonoBehaviour
         if (HasDecorationInCell(cellPos)) return;
         if (placedTowers.ContainsKey(cellPos)) return;
     
-        // Get the Tower component to access its data
         Tower towerComponent = TowerSelectionUI.SelectedTowerPrefab.GetComponentInChildren<Tower>();
 
         if (towerComponent != null && towerComponent.data != null)
@@ -131,15 +127,13 @@ public class TowerPlacer : MonoBehaviour
             if (CoinManager.instance.coins >= towerComponent.data.towerPrice)
             {
                 CoinManager.instance.UpdateCoins(-towerComponent.data.towerPrice);
-                
-                // Calculate precise center based on current cell position
+
                 Vector3 worldCenter = placementMap.GetCellCenterWorld(cellPos);
                 worldCenter.z = 0;
                 
                 GameObject newTower = Instantiate(TowerSelectionUI.SelectedTowerPrefab, worldCenter, Quaternion.identity);
                 placedTowers.Add(cellPos, newTower);
             }
-            // If they can't afford it, it does nothing (no placement, no deselection)
         }
     }
 
