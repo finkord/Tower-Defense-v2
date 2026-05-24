@@ -28,6 +28,13 @@ public class MenuManager : MonoBehaviour
         ShowMapSelection();
     }
 
+    public void SelectPvPMode()
+    {
+        PlayerPrefs.SetInt("GameMode", 2);
+        PlayerPrefs.Save();
+        ShowMapSelection();
+    }
+
     private void ShowMapSelection()
     {
         if (mapSelectionPanel != null)

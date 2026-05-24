@@ -7,7 +7,8 @@ using TMPro;
 public enum WaveMode
 {
     Finite,
-    Endless
+    Endless,
+    PvPHotSeat
 }
 
 [System.Serializable]
@@ -46,8 +47,9 @@ public class WaveManagerV2 : MonoBehaviour
     
     [Header("UI Panels")] 
     public GameObject gameWinPanel;
+    public TextMeshProUGUI gameWinText;
 
-    private int currentWaveIndex = 0;
+    public int currentWaveIndex { get; private set; } = 0;
     private bool waveRunning = false;
 
     private void TriggerGameWin()
@@ -58,9 +60,14 @@ public class WaveManagerV2 : MonoBehaviour
         {
             gameWinPanel.SetActive(true);
         }
+
+        if (gameWinText != null && waveMode == WaveMode.PvPHotSeat)
+        {
+            gameWinText.text = "Defender Wins!";
+        }
     }
     
-    void Start()
+    private void Awake()
     {
         int mode = PlayerPrefs.GetInt("GameMode", 0);
         
@@ -73,7 +80,15 @@ public class WaveManagerV2 : MonoBehaviour
         {
             waveMode = WaveMode.Endless;
         }
+        else if (mode == 2)
+        {
+            waveMode = WaveMode.PvPHotSeat;
+            maxWaves = 10;
+        }
+    }
 
+    void Start()
+    {
         if (startWaveButton != null)
         {
             startWaveButton.onClick.AddListener(StartWave);
@@ -90,7 +105,7 @@ public class WaveManagerV2 : MonoBehaviour
     public void StartWave()
     {
         if (waveRunning) return;
-        if (waveMode == WaveMode.Finite && currentWaveIndex >= maxWaves) return;
+        if ((waveMode == WaveMode.Finite || waveMode == WaveMode.PvPHotSeat) && currentWaveIndex >= maxWaves) return;
 
         StartCoroutine(RunWave());
     }
@@ -100,8 +115,17 @@ public class WaveManagerV2 : MonoBehaviour
         waveRunning = true;
         if (startWaveButton != null) startWaveButton.interactable = false;
 
-        int currentBudget = CalculateBudget(currentWaveIndex);
-        List<EnemySpawnConfig> enemiesToSpawn = GenerateWave(currentBudget);
+        List<EnemySpawnConfig> enemiesToSpawn;
+        if (waveMode == WaveMode.PvPHotSeat && PvPManager.Instance != null)
+        {
+            enemiesToSpawn = new List<EnemySpawnConfig>(PvPManager.Instance.pvpWaveQueue);
+        }
+        else
+        {
+            int currentBudget = CalculateBudget(currentWaveIndex);
+            enemiesToSpawn = GenerateWave(currentBudget);
+        }
+        
         List<GameObject> spawnedEnemies = new List<GameObject>();
 
         foreach (EnemySpawnConfig enemyConfig in enemiesToSpawn)
@@ -124,7 +148,14 @@ public class WaveManagerV2 : MonoBehaviour
         
         if (waveMode == WaveMode.Endless || currentWaveIndex < maxWaves)
         {
-            if (startWaveButton != null) startWaveButton.interactable = true;
+            if (waveMode == WaveMode.PvPHotSeat && PvPManager.Instance != null)
+            {
+                PvPManager.Instance.StartAttackerTurn();
+            }
+            else
+            {
+                if (startWaveButton != null) startWaveButton.interactable = true;
+            }
             UpdateWaveText();
         }
         else
@@ -134,7 +165,7 @@ public class WaveManagerV2 : MonoBehaviour
         }
     }
 
-    private int CalculateBudget(int waveIndex)
+    public int CalculateBudget(int waveIndex)
     {
         float multiplier = budgetCurve.Evaluate(waveIndex);
         return Mathf.RoundToInt(initialBudget * multiplier);

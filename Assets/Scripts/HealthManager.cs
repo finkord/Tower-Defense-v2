@@ -10,6 +10,7 @@ public class HealthManager : MonoBehaviour
 
     [Header("UI Panels")]
     public GameObject gameOverPanel;
+    public TextMeshProUGUI gameOverText;
 
     private void Awake()
     {
@@ -46,6 +47,11 @@ public class HealthManager : MonoBehaviour
         if (gameOverPanel != null)
         {
             gameOverPanel.SetActive(true);
+        }
+
+        if (gameOverText != null && PlayerPrefs.GetInt("GameMode", 0) == 2)
+        {
+            gameOverText.text = "Attacker Wins!";
         }
     }
 }
