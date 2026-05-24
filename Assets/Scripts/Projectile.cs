@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
 
     private static Dictionary<GameObject, List<GameObject>> particlePools = new Dictionary<GameObject, List<GameObject>>();
 
-    private GameObject SpawnParticle(GameObject prefab, Vector3 position)
+    public static GameObject SpawnParticle(GameObject prefab, Vector3 position)
     {
         if (prefab == null) return null;
 

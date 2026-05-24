@@ -42,6 +42,8 @@ public class HealthManager : MonoBehaviour
 
     private void TriggerGameOver()
     {
+        if (GameManager.Instance != null) GameManager.Instance.ChangeState(GameState.GameOver);
+
         Time.timeScale = 0f; 
 
         if (gameOverPanel != null)

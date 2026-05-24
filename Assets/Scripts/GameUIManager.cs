@@ -13,14 +13,17 @@ public class GameUIManager : MonoBehaviour
     public Color normalColor;
     public Color speedUpColor;
 
-    private bool isPaused = false;
     private int currentSpeedMultiplier = 1;
 
     void Start()
     {
         Time.timeScale = 1f; 
-        isPaused = false;
         currentSpeedMultiplier = 1;
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnPauseToggled += HandlePauseToggled;
+        }
 
         if (volumeSlider != null)
         {
@@ -46,10 +49,32 @@ public class GameUIManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnPauseToggled -= HandlePauseToggled;
+        }
+    }
+
     public void TogglePause()
     {
-        isPaused = !isPaused;
-        
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TogglePause();
+        }
+    }
+
+    public void ResumeGame()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetPause(false);
+        }
+    }
+
+    private void HandlePauseToggled(bool isPaused)
+    {
         if (isPaused)
         {
             Time.timeScale = 0f;
@@ -57,19 +82,8 @@ public class GameUIManager : MonoBehaviour
         }
         else
         {
-            ResumeGame();
-        }
-    }
-
-    public void ResumeGame()
-    {
-        isPaused = false;
-        
-        Time.timeScale = currentSpeedMultiplier;
-
-        if (pauseMenuPanel != null)
-        {
-            pauseMenuPanel.SetActive(false);
+            Time.timeScale = currentSpeedMultiplier;
+            if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
         }
     }
 
@@ -85,7 +99,7 @@ public class GameUIManager : MonoBehaviour
             UpdateSpeedText();
         }
 
-        if (!isPaused)
+        if (GameManager.Instance == null || !GameManager.Instance.IsPaused)
         {
             Time.timeScale = currentSpeedMultiplier;
         }

@@ -63,12 +63,61 @@ public class PvPManager : MonoBehaviour
         if (waveManager != null && waveManager.waveMode == WaveMode.PvPHotSeat)
         {
             InitializeAttackerUI();
-            StartAttackerTurn();
+        }
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnStateChanged += HandleStateChanged;
+            HandleStateChanged(GameManager.Instance.CurrentState); // Handle initial state
         }
         else
         {
-            if (attackerPanel != null) attackerPanel.SetActive(false);
-            SetDefenderUIActive(true);
+            // Fallback
+            if (waveManager != null && waveManager.waveMode == WaveMode.PvPHotSeat)
+                StartAttackerTurn();
+            else
+            {
+                if (attackerPanel != null) attackerPanel.SetActive(false);
+                SetDefenderUIActive(true);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnStateChanged -= HandleStateChanged;
+        }
+    }
+
+    private void HandleStateChanged(GameState newState)
+    {
+        switch (newState)
+        {
+            case GameState.AttackerTurn:
+                if (waveManager != null && waveManager.waveMode == WaveMode.PvPHotSeat)
+                {
+                    StartAttackerTurn();
+                }
+                break;
+            case GameState.Preparation:
+                if (attackerPanel != null) attackerPanel.SetActive(false);
+                SetDefenderUIActive(true);
+                break;
+            case GameState.WaveRunning:
+                if (attackerPanel != null) attackerPanel.SetActive(false);
+                SetDefenderUIActive(true);
+                if (waveManager != null && waveManager.startWaveButton != null)
+                {
+                    waveManager.startWaveButton.interactable = false;
+                }
+                break;
+            case GameState.GameOver:
+            case GameState.GameWin:
+                if (attackerPanel != null) attackerPanel.SetActive(false);
+                SetDefenderUIActive(false);
+                break;
         }
     }
 
@@ -82,7 +131,7 @@ public class PvPManager : MonoBehaviour
             
             if (mapping.config != null)
             {
-                int cost = mapping.config.data.reward; // Cost equals the reward
+                int cost = mapping.config.data.attackCost; // Separated economy: use attackCost instead of reward
                 if (mapping.priceText != null) mapping.priceText.text = cost.ToString();
                 
                 if (mapping.button != null)
@@ -113,7 +162,7 @@ public class PvPManager : MonoBehaviour
     {
         if (mapping.config == null) return;
         
-        int cost = mapping.config.data.reward;
+        int cost = mapping.config.data.attackCost;
         int amountToAdd = 1;
 
         // If holding shift OR UI button is toggled, try to add 10 at a time
@@ -162,8 +211,15 @@ public class PvPManager : MonoBehaviour
             return;
         }
 
-        if (attackerPanel != null) attackerPanel.SetActive(false);
-        SetDefenderUIActive(true);
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ChangeState(GameState.Preparation);
+        }
+        else
+        {
+            if (attackerPanel != null) attackerPanel.SetActive(false);
+            SetDefenderUIActive(true);
+        }
     }
 
     public void ToggleX10()

@@ -13,6 +13,14 @@ public class Tower : MonoBehaviour
     public GameObject cloudPSPrefab;
     public AudioClip shootSFX;
 
+    [Header("Visuals (Optional)")]
+    public SpriteRenderer turretSpriteRenderer;
+    public Sprite loadedSprite;
+    public Sprite emptySprite;
+    public Sprite[] fireStateSprites; // Optional: specific sprites for each fire point (e.g., missing left rocket, missing right rocket)
+    
+    private bool isLoaded = true;
+
     private static Dictionary<GameObject, List<GameObject>> projectilePools = new Dictionary<GameObject, List<GameObject>>();
 
     void Start()
@@ -20,7 +28,7 @@ public class Tower : MonoBehaviour
         
         if (cloudPSPrefab != null)
         {
-            GameObject cloudEffect = Instantiate(cloudPSPrefab, transform.position, Quaternion.identity);
+            GameObject cloudEffect = Projectile.SpawnParticle(cloudPSPrefab, transform.position);
         }
     }
     
@@ -29,6 +37,17 @@ public class Tower : MonoBehaviour
         if (data == null) return;
 
         fireCooldown -= Time.deltaTime;
+
+        // Reload sprite halfway through the cooldown
+        if (!isLoaded && data.fireRate > 0 && fireCooldown <= (1f / data.fireRate) * 0.5f)
+        {
+            isLoaded = true;
+            if (turretSpriteRenderer != null && loadedSprite != null)
+            {
+                turretSpriteRenderer.sprite = loadedSprite;
+            }
+        }
+
         Enemy target = FindBestTarget();
 
         if (target != null)
@@ -57,6 +76,7 @@ public class Tower : MonoBehaviour
             {
                 Shoot(target);
                 fireCooldown = 1f / data.fireRate;
+                isLoaded = false;
             }
         }
     }
@@ -135,16 +155,34 @@ public class Tower : MonoBehaviour
             else
             {
                 p.transform.position = currentFirePoint.position;
-                p.transform.rotation = Quaternion.identity;
                 p.SetActive(true);
             }
-
-            Projectile pr = p.GetComponent<Projectile>();
-        
-            if (pr != null)
+            
+            if (turretSpriteRenderer != null)
             {
-                pr.target = target.transform;
-                pr.data = this.data; 
+                if (fireStateSprites != null && fireStateSprites.Length > 0)
+                {
+                    int justFiredIndex = (currentFirePointIndex - 1 + firePoints.Length) % firePoints.Length;
+                    if (justFiredIndex < fireStateSprites.Length && fireStateSprites[justFiredIndex] != null)
+                    {
+                        turretSpriteRenderer.sprite = fireStateSprites[justFiredIndex];
+                    }
+                    else if (emptySprite != null)
+                    {
+                        turretSpriteRenderer.sprite = emptySprite;
+                    }
+                }
+                else if (emptySprite != null)
+                {
+                    turretSpriteRenderer.sprite = emptySprite;
+                }
+            }
+
+            Projectile proj = p.GetComponent<Projectile>();
+            if (proj != null)
+            {
+                proj.target = target.transform;
+                proj.data = this.data; 
             }
             
             if (shootSFX != null && AudioManager.Instance != null)

@@ -7,6 +7,7 @@ public class EnemyData : ScriptableObject
     public float speed;
     public int health;
     public int reward;
+    public int attackCost = 50;
     
     [Header("Special Features")]
     public bool immuneToSlow; 

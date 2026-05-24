@@ -16,4 +16,5 @@ MonoBehaviour:
   speed: 2.4
   health: 8
   reward: 10
+  attackCost: 10
   immuneToSlow: 1

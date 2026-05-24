@@ -267,3 +267,7 @@ MonoBehaviour:
   turretPart: {fileID: 8717240527456244158}
   cloudPSPrefab: {fileID: 2181721389523667334, guid: 0841688b158a6124da557428fb69d7e0, type: 3}
   shootSFX: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
+  turretSpriteRenderer: {fileID: 0}
+  loadedSprite: {fileID: 0}
+  emptySprite: {fileID: 0}
+  fireStateSprites: []

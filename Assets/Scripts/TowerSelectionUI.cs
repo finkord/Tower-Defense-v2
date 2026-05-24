@@ -84,6 +84,8 @@ public class TowerSelectionUI : MonoBehaviour
 
     private void CloneSpriteToUI(GameObject prefabNode, Transform parentUI)
     {
+        if (prefabNode.name.ToLower().Contains("shadow")) return;
+
         GameObject uiNode = new GameObject(prefabNode.name);
         RectTransform rt = uiNode.AddComponent<RectTransform>();
         rt.SetParent(parentUI, false);
@@ -102,7 +104,23 @@ public class TowerSelectionUI : MonoBehaviour
             img.SetNativeSize(); 
         }
 
+        // Clone children and sort them by SpriteRenderer sortingOrder so they render correctly in the UI
+        List<Transform> children = new List<Transform>();
         foreach (Transform child in prefabNode.transform)
+        {
+            children.Add(child);
+        }
+        
+        children.Sort((a, b) => 
+        {
+            SpriteRenderer srA = a.GetComponent<SpriteRenderer>();
+            SpriteRenderer srB = b.GetComponent<SpriteRenderer>();
+            int orderA = srA != null ? srA.sortingOrder : 0;
+            int orderB = srB != null ? srB.sortingOrder : 0;
+            return orderA.CompareTo(orderB);
+        });
+
+        foreach (Transform child in children)
         {
             CloneSpriteToUI(child.gameObject, uiNode.transform);
         }

@@ -82,12 +82,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8597523357736323108, guid: 9b1a50ee0b0349a46891a90853da5284, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9b1a50ee0b0349a46891a90853da5284, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.94, y: 0.82}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -203,6 +203,11 @@ MonoBehaviour:
   turretPart: {fileID: 8763151092920317268}
   cloudPSPrefab: {fileID: 2181721389523667334, guid: 0841688b158a6124da557428fb69d7e0, type: 3}
   shootSFX: {fileID: 8300000, guid: c80eb9f6bbd7ec741bfe111567b62911, type: 3}
+  turretSpriteRenderer: {fileID: 7001521757313564203}
+  loadedSprite: {fileID: 21300000, guid: 9b1a50ee0b0349a46891a90853da5284, type: 3}
+  emptySprite: {fileID: 21300000, guid: 45117284f984998459661d7aa1355512, type: 3}
+  fireStateSprites:
+  - {fileID: 21300000, guid: 45117284f984998459661d7aa1355512, type: 3}
 --- !u!1 &4086002971367719209
 GameObject:
   m_ObjectHideFlags: 0

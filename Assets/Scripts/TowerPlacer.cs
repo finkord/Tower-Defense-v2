@@ -78,6 +78,11 @@ public class TowerPlacer : MonoBehaviour
 
     void HandleTowerDeletion()
     {
+        if (GameManager.Instance != null && 
+            (GameManager.Instance.CurrentState != GameState.Preparation && 
+             GameManager.Instance.CurrentState != GameState.WaveRunning || 
+             GameManager.Instance.IsPaused)) return;
+
         if (Input.GetMouseButtonDown(1)) 
         {
             if (TowerSelectionUI.SelectedTowerPrefab != null)
@@ -106,6 +111,11 @@ public class TowerPlacer : MonoBehaviour
 
     void HandlePlacementClick()
     {
+        if (GameManager.Instance != null && 
+            (GameManager.Instance.CurrentState != GameState.Preparation && 
+             GameManager.Instance.CurrentState != GameState.WaveRunning || 
+             GameManager.Instance.IsPaused)) return;
+
         if(!Input.GetMouseButtonDown(0)) return;
         if (TowerSelectionUI.SelectedTowerPrefab == null) return;
         if(EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
@@ -139,6 +149,15 @@ public class TowerPlacer : MonoBehaviour
 
     void HandlePlacementHover()
     {
+        if (GameManager.Instance != null && 
+            (GameManager.Instance.CurrentState != GameState.Preparation && 
+             GameManager.Instance.CurrentState != GameState.WaveRunning || 
+             GameManager.Instance.IsPaused))
+        {
+            if (ghostInstance != null) Destroy(ghostInstance);
+            return;
+        }
+
         if (TowerSelectionUI.SelectedTowerPrefab == null)
         {
             if (ghostInstance != null)

@@ -54,6 +54,8 @@ public class WaveManagerV2 : MonoBehaviour
 
     private void TriggerGameWin()
     {
+        if (GameManager.Instance != null) GameManager.Instance.ChangeState(GameState.GameWin);
+
         Time.timeScale = 0f; 
 
         if (gameWinPanel != null)
@@ -112,6 +114,7 @@ public class WaveManagerV2 : MonoBehaviour
 
     private IEnumerator RunWave()
     {
+        if (GameManager.Instance != null) GameManager.Instance.ChangeState(GameState.WaveRunning);
         waveRunning = true;
         if (startWaveButton != null) startWaveButton.interactable = false;
 
@@ -150,10 +153,12 @@ public class WaveManagerV2 : MonoBehaviour
         {
             if (waveMode == WaveMode.PvPHotSeat && PvPManager.Instance != null)
             {
-                PvPManager.Instance.StartAttackerTurn();
+                if (GameManager.Instance != null) GameManager.Instance.ChangeState(GameState.AttackerTurn);
+                else PvPManager.Instance.StartAttackerTurn();
             }
             else
             {
+                if (GameManager.Instance != null) GameManager.Instance.ChangeState(GameState.Preparation);
                 if (startWaveButton != null) startWaveButton.interactable = true;
             }
             UpdateWaveText();
@@ -179,8 +184,8 @@ public class WaveManagerV2 : MonoBehaviour
         int minCost = int.MaxValue;
         foreach (var enemy in availableEnemies)
         {
-            if (enemy.data.reward < minCost)
-                minCost = enemy.data.reward;
+            if (enemy.data.attackCost < minCost)
+                minCost = enemy.data.attackCost;
         }
 
         while (remainingBudget >= minCost)
@@ -189,7 +194,7 @@ public class WaveManagerV2 : MonoBehaviour
             
             foreach (var enemy in availableEnemies)
             {
-                if (enemy.data.reward <= remainingBudget)
+                if (enemy.data.attackCost <= remainingBudget)
                 {
                     affordableEnemies.Add(enemy);
                 }
@@ -199,7 +204,7 @@ public class WaveManagerV2 : MonoBehaviour
 
             EnemySpawnConfig chosen = affordableEnemies[Random.Range(0, affordableEnemies.Count)];
             waveList.Add(chosen);
-            remainingBudget -= chosen.data.reward;
+            remainingBudget -= chosen.data.attackCost;
         }
 
         return waveList;

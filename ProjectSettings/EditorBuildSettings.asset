@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ThirdMap.unity
     guid: 38843c7110254944d8e841e4a9a877ca
+  - enabled: 1
+    path: Assets/Scenes/FourthAIMap.unity
+    guid: 17115edc292413d489bd085e19a48a56
   m_configObjects:
     com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: d54f7c09b47be9549a71593eda5bcebf, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: f924bf2e58f4c784fb7cf01d3c0c736c, type: 2}
