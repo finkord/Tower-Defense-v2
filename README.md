@@ -16,6 +16,14 @@ A 2D Tower Defense game built in Unity, designed with performance and WebGL comp
 - **Right Click:** Delete placed towers (Refunds 50% of the cost).
 - **Shift + Click:** (PvP Mode) Add 10 enemies to the queue at once.
 
+## Object Pooling Implementation
+To achieve maximum performance and prevent garbage collection (GC) stuttering, especially on WebGL, the game uses extensive Object Pooling instead of `Instantiate()` and `Destroy()`.
+
+- **Enemies (`WaveManagerV2.cs`):** Enemies are spawned from a `List<GameObject> pool` within their `EnemySpawnConfig`. When an enemy dies or reaches the base, it is set to inactive rather than destroyed.
+- **Projectiles (`Tower.cs`):** Each tower manages its own `Dictionary<GameObject, List<GameObject>>` for projectile pooling. Projectiles are deactivated on impact and reused for the next shot.
+- **Particles (`Projectile.cs`):** Impact and death visual effects use a static `Dictionary` pool. Particle Systems have their "Stop Action" set to `Disable` in the Unity Editor so they automatically return to the pool when finished playing.
+- **Audio (`AudioManager.cs`):** Sound effects are played using a pool of `AudioSource` components, preventing the overhead of creating and destroying audio objects constantly.
+
 ## Credits & Assets
 - **Graphics:** Kenney Tower Defense Top-Down ([Kenney.nl](https://kenney.nl/assets/tower-defense-top-down))
 - **Base Asset:** AI-generated.
