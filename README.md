@@ -37,6 +37,27 @@ The game architecture relies on a centralized `GameManager.cs` script acting as 
 - **Particle Pooling Fixes:** Refactored `DestroyAfterTime.cs` to use `gameObject.SetActive(false)` via a Coroutine instead of a hard `Destroy()`, fully repairing the particle pooling system for Tower build effects and Projectile impact effects.
 - **PvP UX Enhancements:** Added an **X10 Toggle Button** and **Shift-Click** support to the PvP menu, allowing the Attacker to quickly queue up large numbers of enemies.
 - **Dynamic Defender Actions:** Allowed the Defender to place towers and access the pause menu even while `GameState.WaveRunning` is active.
+- **Multi-Rocket Tower Animations:** Added a `fireStateSprites` system to `Tower.cs` to support towers with multiple barrels. Allows seamless toggling of independent sprites (e.g., missing left rocket, missing right rocket) that automatically reload halfway through the fire cooldown.
+- **UI Render Fixes:** Fixed a bug in `TowerSelectionUI.cs` where cloned tower icons appeared dark. The script now automatically ignores semi-transparent "Shadow" sprites and correctly sorts UI elements based on the original `SpriteRenderer.sortingOrder`.
+
+## Towers
+The game features a flexible, data-driven tower system (`TowerData.cs`). You can create various tower types by mixing standard stats and special abilities.
+
+| Tower Name | Damage | Range | Fire Rate (shots/sec) | Price | Special Abilities |
+|------------|--------|-------|-----------------------|-------|-------------------|
+| **Archer** | 2 | 5.5 | 2.5 | 100 | None |
+| **Cannon** | 8 | 8.5 | 0.5 | 260 | High Damage, Long Range |
+| **Freezer**| 1 | 5.0 | 0.8 | 130 | **Crowd Control:** Slows enemies by 50% for 2.5s |
+| **Mage**   | 2 | 4.3 | 0.6 | 200 | **Area of Effect:** Deals splash damage in a 2.8 unit radius |
+
+## Enemies
+Enemies are also data-driven (`EnemyData.cs`) and scale dynamically across waves. We use a **Dual Economy System** where the `Reward` goes to the Defender, and the `PvP Cost` is used by the Attacker's budget.
+
+| Enemy Name | Health | Speed | Kill Reward | PvP Cost | Special Features |
+|------------|--------|-------|-------------|----------|------------------|
+| **Goblin** | 5 | 3.8 | 5 | 5 | Fast, squishy swarm unit |
+| **Ghost**  | 8 | 2.4 | 10 | 10 | **Immune to Slow** effects (counters Freezer) |
+| **Orc**    | 28 | 1.5 | 15 | 15 | Heavy Tank unit |
 
 ## Object Pooling Implementation
 To achieve maximum performance and prevent garbage collection (GC) stuttering, the game uses extensive Object Pooling instead of `Instantiate()` and `Destroy()`.
