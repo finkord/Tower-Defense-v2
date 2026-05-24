@@ -5555,6 +5555,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &517972394 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 831746523510701971, guid: f0f4a4c07beddbe44abc7a9657ee1af8, type: 3}
+  m_PrefabInstance: {fileID: 1921518144}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -8508,6 +8519,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1445987717}
     - target: {fileID: 4849261506357903215, guid: 95ebd4b529e4b1f43a8d3c0ba0d8d781, type: 3}
+      propertyPath: gameOverText
+      value: 
+      objectReference: {fileID: 517972394}
+    - target: {fileID: 4849261506357903215, guid: 95ebd4b529e4b1f43a8d3c0ba0d8d781, type: 3}
       propertyPath: gameOverPanel
       value: 
       objectReference: {fileID: 963151252}
@@ -8902,6 +8917,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1991100776}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1498503170 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6084512047879262432, guid: f0f4a4c07beddbe44abc7a9657ee1af8, type: 3}
+  m_PrefabInstance: {fileID: 1921518144}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1624322859
 GameObject:
   m_ObjectHideFlags: 0
@@ -9889,6 +9915,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: set_SelectedTowerPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 718550139369901854, guid: f0f4a4c07beddbe44abc7a9657ee1af8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 646581957}
+    - target: {fileID: 718550139369901854, guid: f0f4a4c07beddbe44abc7a9657ee1af8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TogglePause
+      objectReference: {fileID: 0}
     - target: {fileID: 806242672338943438, guid: f0f4a4c07beddbe44abc7a9657ee1af8, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -10205,6 +10239,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: set_SelectedTowerPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 8160593115569821926, guid: f0f4a4c07beddbe44abc7a9657ee1af8, type: 3}
+      propertyPath: waveManager
+      value: 
+      objectReference: {fileID: 1991100775}
+    - target: {fileID: 8160593115569821926, guid: f0f4a4c07beddbe44abc7a9657ee1af8, type: 3}
+      propertyPath: currentBudget
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 8317413647567938001, guid: f0f4a4c07beddbe44abc7a9657ee1af8, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.b
       value: 0.7
@@ -10411,6 +10453,7 @@ MonoBehaviour:
   startWaveButton: {fileID: 431973552}
   waveText: {fileID: 622158848}
   gameWinPanel: {fileID: 872353650}
+  gameWinText: {fileID: 1498503170}
   debugPanel: {fileID: 0}
   debugText: {fileID: 0}
 --- !u!4 &1991100776

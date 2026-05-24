@@ -74,7 +74,7 @@ public class WaveManagerV2 : MonoBehaviour
         if (mode == 0)
         {
             waveMode = WaveMode.Finite;
-            maxWaves = 10;
+            maxWaves = 1;
         }
         else if (mode == 1)
         {
@@ -83,7 +83,7 @@ public class WaveManagerV2 : MonoBehaviour
         else if (mode == 2)
         {
             waveMode = WaveMode.PvPHotSeat;
-            maxWaves = 10;
+            maxWaves = 1;
         }
     }
 

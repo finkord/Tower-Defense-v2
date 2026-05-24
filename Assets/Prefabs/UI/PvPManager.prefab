@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7329301764274037899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1285582029233709242}
+  - component: {fileID: 339183359328120726}
+  m_Layer: 0
+  m_Name: PvPManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1285582029233709242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329301764274037899}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.17781, y: -0.03334, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &339183359328120726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329301764274037899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aedd08f1316fead448916474fcc831dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PvPManager
+  waveManager: {fileID: 0}
+  attackerPanel: {fileID: 0}
+  defenderUIElements:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  currentBudget: 500
+  budgetTxt: {fileID: 0}
+  enemyMappings:
+  - button: {fileID: 0}
+    countText: {fileID: 0}
+    priceText: {fileID: 0}
+    enemyPrefab: {fileID: 692497169523040045, guid: 065b7b34d71e18a4e8c1bb6eafbeabc7, type: 3}
+    currentQueued: 0
+    config:
+      prefab: {fileID: 0}
+      data: {fileID: 0}
+      pool: []
+  - button: {fileID: 0}
+    countText: {fileID: 0}
+    priceText: {fileID: 0}
+    enemyPrefab: {fileID: 3623105241675087428, guid: b05ed4f2faf2b4a4589af8839db8357f, type: 3}
+    currentQueued: 0
+    config:
+      prefab: {fileID: 0}
+      data: {fileID: 0}
+      pool: []
+  - button: {fileID: 0}
+    countText: {fileID: 0}
+    priceText: {fileID: 0}
+    enemyPrefab: {fileID: 2465556291323999647, guid: f86c31d3196d8814399ee3379b3e34d8, type: 3}
+    currentQueued: 0
+    config:
+      prefab: {fileID: 0}
+      data: {fileID: 0}
+      pool: []
+  confirmWaveBTN: {fileID: 0}
+  x10Button: {fileID: 0}
+  pvpWaveQueue: []
