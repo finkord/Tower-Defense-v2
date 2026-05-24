@@ -111,3 +111,5 @@ InitTestScene*.unity*
 
 # plastic
 .plastic/
+.vscode
+_Recovery
